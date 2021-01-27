@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { Route, Switch } from "react-router-dom";
 import Header from "../functionBased/Header";
+import Navbar from "../functionBased/Navbar";
 import InputTodo from "./InputTodo";
 import TodoList from "./TodoList";
+import About from "../functionBased/pages/About";
+import NotMatch from "../functionBased/pages/NotMatch";
 
 function getInitialTodos() {
   // getting stored items
-  const temp = localStorage.getItem("todoItems")
-  const savedTodos = JSON.parse(temp)
-  return savedTodos || []
+  const temp = localStorage.getItem("todoItems");
+  const savedTodos = JSON.parse(temp);
+  return savedTodos || [];
 }
 
 const TodoContainer = () => {
@@ -75,18 +79,31 @@ const TodoContainer = () => {
   };
 
   return (
-    <div className="container">
-      <div className="inner">
-        <Header />
-        <InputTodo addTodoProps={addTodoItem} />
-        <TodoList
-          todoItems={todoItems}
-          handleChangeProps={handleChange}
-          deleteTodoProps={deleteTodo}
-          updateTodoItem={updateTodoItem}
-        />
-      </div>
-    </div>
+    <>
+      <Navbar />
+      <Switch>
+        <Route exact path="/">
+          <div className="container">
+            <div className="inner">
+              <Header />
+              <InputTodo addTodoProps={addTodoItem} />
+              <TodoList
+                todoItems={todoItems}
+                handleChangeProps={handleChange}
+                deleteTodoProps={deleteTodo}
+                updateTodoItem={updateTodoItem}
+              />
+            </div>
+          </div>
+        </Route>
+        <Route path="/about">
+          <About />
+        </Route>
+        <Route path="*">
+          <NotMatch />
+        </Route>
+      </Switch>
+    </>
   );
 };
 
